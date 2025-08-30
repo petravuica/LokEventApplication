@@ -1,0 +1,80 @@
+package com.example.lokeventapplication.viewmodel
+
+import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.lokeventapplication.model.Event
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.toObject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+
+class EventsViewModel : ViewModel() {
+
+    private val db = Firebase.firestore
+
+    private val _events = MutableStateFlow<List<Event>>(emptyList())
+    val events: StateFlow<List<Event>> = _events
+
+    fun fetchEvents() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        db.collection("users").document(userId).collection("interests")
+            .get()
+            .addOnSuccessListener { interestDocs ->
+                val interestedIds = interestDocs.map { it.id }.toSet()
+
+                db.collection("events")
+                    .get()
+                    .addOnSuccessListener { eventDocs ->
+                        val eventList = eventDocs.mapNotNull { doc ->
+                            try {
+                                val event = doc.toObject(Event::class.java).copy(
+                                    id = doc.id,
+                                    isInterested = interestedIds.contains(doc.id)
+                                )
+                                Log.d("EventsDebug", "Fetched event: $event") // Ovdje ispis
+                                event
+                            } catch (e: Exception) {
+                                Log.e("EventsDebug", "Parsing error: ${e.message}")
+                                null
+                            }
+                        }
+                        _events.value = eventList
+                        Log.d("EventsDebug", "Total events fetched: ${eventList.size}")
+                    }
+                    .addOnFailureListener {
+                        Log.e("EventsDebug", "Error fetching events", it)
+                    }
+            }
+            .addOnFailureListener {
+                Log.e("EventsDebug", "Error fetching interests", it)
+            }
+    }
+
+    fun toggleInterest(event: Event) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val docRef = db.collection("users")
+            .document(userId)
+            .collection("interests")
+            .document(event.id)
+
+        if (event.isInterested) {
+            docRef.delete()
+        } else {
+            val eventMap = mapOf(
+                "title" to event.title,
+                "description" to event.description,
+                "date" to event.date,
+                "location" to event.location
+            )
+            docRef.set(eventMap)
+        }
+
+        // Osvježi prikaz
+        fetchEvents()
+    }
+}

@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "342966474287",
+    "project_id": "lokevent-11ec1",
+    "storage_bucket": "lokevent-11ec1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342966474287:android:e798dcb5a4e0d4efa958da",
+        "android_client_info": {
+          "package_name": "com.example.lokevent"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTDxpQhu-O3Y37VV96SX7tMtxzb_Tk1uk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342966474287:android:73763b61e801ce41a958da",
+        "android_client_info": {
+          "package_name": "com.example.lokeventapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTDxpQhu-O3Y37VV96SX7tMtxzb_Tk1uk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342966474287:android:796c5a63541178e4a958da",
+        "android_client_info": {
+          "package_name": "com.example.lokeventapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTDxpQhu-O3Y37VV96SX7tMtxzb_Tk1uk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

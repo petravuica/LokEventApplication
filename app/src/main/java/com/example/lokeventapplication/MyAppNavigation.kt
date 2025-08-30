@@ -1,0 +1,48 @@
+package com.example.lokeventapplication
+
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.runtime.Composable
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
+import com.example.lokeventapplication.viewmodel.AuthViewModel
+import com.example.lokeventapplication.viewmodel.EventsViewModel
+import com.example.lokeventapplication.view.SignupScreen
+import com.example.lokeventapplication.view.LoginScreen
+import com.example.lokeventapplication.view.EventsScreen
+import com.example.lokeventapplication.view.EventDetailScreen
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.lokeventapplication.view.AddEventScreen
+
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun MyAppNavigation(modifier: Modifier = Modifier, authViewModel: AuthViewModel){
+    val navController = rememberNavController()
+    val eventsViewModel: EventsViewModel = viewModel() // stvara se jednom
+
+
+    NavHost(navController = navController, startDestination = "login", builder = {
+        composable("login"){
+            LoginScreen(modifier, navController, authViewModel)
+        }
+        composable("signup"){
+            SignupScreen(modifier, navController, authViewModel)
+        }
+        composable("events"){
+            EventsScreen(modifier, navController, authViewModel, eventsViewModel)
+        }
+        composable("event_detail/{eventId}") { backStackEntry ->
+            val eventId = backStackEntry.arguments?.getString("eventId") ?: ""
+            EventDetailScreen(eventId = eventId, eventsViewModel = eventsViewModel)
+        }
+        composable("add_event") {
+            AddEventScreen(navController)
+        }
+
+
+
+    })
+}
