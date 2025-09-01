@@ -1,3 +1,50 @@
 <resources>
-    <string name="app_name">LokEventApplication</string>
+    <string name="app_name">LokEvent</string>
+
+    <!-- Login Screen -->
+    <string name="login_title">Login</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Password</string>
+    <string name="login_button">Login</string>
+    <string name="login_signup_redirect">Do not have an account? Sign up</string>
+
+    <!-- Signup Screen -->
+    <string name="signup_title">Sign Up</string>
+    <string name="signup_email">Email</string>
+    <string name="signup_password">Password</string>
+    <string name="signup_button">Sign Up</string>
+    <string name="signup_login_redirect">Already have an account? Login</string>
+
+    <!-- Events Screen -->
+    <string name="events_title">Local Events</string>
+    <string name="search_label">Search by title</string>
+    <string name="category_filter_label">Filter by category</string>
+    <string name="logout">Logout</string>
+    <string name="favorites_only">Show favorites only</string>
+    <string name="add_event">Add event</string>
+    <string name="date">Date</string>
+    <string name="category">Category</string>
+    <string name="address">Address</string>
+    <string name="interested">Interested</string>
+
+
+        <string name="category_all">All</string>
+        <string name="category_concert">Concert</string>
+        <string name="category_sport">Sport</string>
+        <string name="category_education">Education</string>
+        <string name="category_culture">Culture</string>
+        <string name="category_exhibition">Exhibition</string>
+        <string name="category_other">Other</string>
+
+        <string name="add_event_title">Add Event</string>
+        <string name="label_title">Title</string>
+        <string name="label_description">Description</string>
+        <string name="label_date">Date (yyyy-MM-dd)</string>
+        <string name="label_category">Category</string>
+        <string name="label_address">Address</string>
+        <string name="label_latitude">Latitude</string>
+        <string name="label_longitude">Longitude</string>
+        <string name="button_save_event">Save Event</string>
+
+
 </resources>

@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
 import com.example.lokeventapplication.viewmodel.AuthViewModel
 import com.example.lokeventapplication.viewmodel.EventsViewModel
@@ -14,6 +15,7 @@ import com.example.lokeventapplication.view.LoginScreen
 import com.example.lokeventapplication.view.EventsScreen
 import com.example.lokeventapplication.view.EventDetailScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.navDeepLink
 import com.example.lokeventapplication.view.AddEventScreen
 
 
@@ -36,11 +38,20 @@ fun MyAppNavigation(modifier: Modifier = Modifier, authViewModel: AuthViewModel)
         }
         composable("event_detail/{eventId}") { backStackEntry ->
             val eventId = backStackEntry.arguments?.getString("eventId") ?: ""
-            EventDetailScreen(eventId = eventId, eventsViewModel = eventsViewModel)
-        }
+            EventDetailScreen(eventId = eventId, eventsViewModel = eventsViewModel,  navController = navController,
+                context = LocalContext.current)        }
         composable("add_event") {
             AddEventScreen(navController)
         }
+        composable(
+            "event_detail/{eventId}",
+            deepLinks = listOf(navDeepLink { uriPattern = "myapp://event_detail/{eventId}" })
+        ) { backStackEntry ->
+            val eventId = backStackEntry.arguments?.getString("eventId") ?: ""
+            EventDetailScreen(eventId = eventId, eventsViewModel = eventsViewModel,  navController = navController,
+                context = LocalContext.current)
+        }
+
 
 
 

@@ -1,13 +1,12 @@
 package com.example.lokeventapplication.viewmodel
 
 
+import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.lokeventapplication.model.Event
 import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +15,11 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeParseException
 import com.example.lokeventapplication.model.EventUiState
+import androidx.work.*
+import com.example.lokeventapplication.notifications.NotificationWorker
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.util.concurrent.TimeUnit
 
 class AddEventViewModel : ViewModel() {
 
@@ -39,7 +43,7 @@ class AddEventViewModel : ViewModel() {
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun saveEvent(onSuccess: () -> Unit, onError: (String) -> Unit) {
+    fun saveEvent(context: Context, onSuccess: () -> Unit, onError: (String) -> Unit) {
         val state = _uiState.value
         try {
             val parsedDate = LocalDate.parse(state.date)
@@ -58,7 +62,10 @@ class AddEventViewModel : ViewModel() {
             viewModelScope.launch {
                 db.collection("events")
                     .add(event)
-                    .addOnSuccessListener { onSuccess() }
+                    .addOnSuccessListener {
+                        scheduleEventReminder(context, state.title, parsedDate.toString())
+                        onSuccess()
+                    }
                     .addOnFailureListener { onError("Greška pri spremanju: ${it.message}") }
             }
         } catch (e: DateTimeParseException) {
@@ -66,31 +73,32 @@ class AddEventViewModel : ViewModel() {
         } catch (e: Exception) {
             onError("Greška: ${e.message}")
         }
+
     }
+    @RequiresApi(Build.VERSION_CODES.O)
+        private fun scheduleEventReminder(context: Context, title: String, date: String) {
+            val eventDate = LocalDate.parse(date)
+            val reminderDateTime = LocalDateTime.of(eventDate, LocalTime.of(15, 52)) // 08:00 ujutro
 
-    fun toggleInterest(event: Event) {
-        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        val docRef = db.collection("users")
-            .document(userId)
-            .collection("interests")
-            .document(event.id)
+            val delay = java.time.Duration.between(
+                LocalDateTime.now(),
+                reminderDateTime
+            ).toMillis()
 
-        if (event.isInterested) {
-            docRef.delete()
-        } else {
-            docRef.set(
-                mapOf(
-                    "eventId" to event.id,
-                    "title" to event.title,
-                    "description" to event.description,
-                    "date" to event.date,
-                    "category" to event.category,
-                    "address" to event.address,
-                    "location" to event.location
+            if (delay > 0) {
+                val data = workDataOf(
+                    "title" to title,
+                    "message" to "Događaj je danas!"
                 )
-            )
+
+                val workRequest = OneTimeWorkRequestBuilder<NotificationWorker>()
+                    .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+                    .setInputData(data)
+                    .build()
+
+                WorkManager.getInstance(context).enqueue(workRequest)
+            }
         }
-    }
 }
 
 

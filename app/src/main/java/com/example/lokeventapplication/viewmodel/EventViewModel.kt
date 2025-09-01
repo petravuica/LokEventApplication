@@ -2,15 +2,13 @@ package com.example.lokeventapplication.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.lokeventapplication.model.Event
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
-import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+
 
 class EventsViewModel : ViewModel() {
 
@@ -55,6 +53,13 @@ class EventsViewModel : ViewModel() {
             }
     }
 
+    fun deleteEvent(eventId: String, onSuccess: () -> Unit, onError: (String) -> Unit) {
+        db.collection("events").document(eventId)
+            .delete()
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { e -> onError(e.message ?: "Greška pri brisanju") }
+    }
+
     fun toggleInterest(event: Event) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val docRef = db.collection("users")
@@ -74,7 +79,6 @@ class EventsViewModel : ViewModel() {
             docRef.set(eventMap)
         }
 
-        // Osvježi prikaz
         fetchEvents()
     }
 }

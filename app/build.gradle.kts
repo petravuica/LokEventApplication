@@ -38,6 +38,7 @@ android {
     buildFeatures {
         compose = true
     }
+
 }
 
 dependencies {
@@ -53,6 +54,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.navigation.runtime.android)
     // implementation(libs.androidx.navigation.compose.jvmstubs)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -70,6 +72,11 @@ dependencies {
     //notifications
     implementation ("androidx.core:core:1.12.0")
     implementation("androidx.work:work-runtime-ktx:2.9.0")
+
+
+        implementation("androidx.compose.material3:material3:1.0.1")
+
+
 
     dependencies {
         implementation("com.google.maps.android:maps-compose:4.3.3")

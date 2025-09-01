@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">LokEvent</string>
+
+    <!-- Signup -->
+    <string name="signup_email">Email</string>
+    <string name="signup_password">Lozinka</string>
+    <string name="signup_button">Registriraj se</string>
+    <string name="signup_login_redirect">Imate račun? Prijavite se</string>
+
+    <!-- Login -->
+    <string name="login_email">Email</string>
+    <string name="login_password">Lozinka</string>
+    <string name="login_button">Prijavi se</string>
+    <string name="login_signup_redirect">Nemate račun? Registrirajte se</string>
+
+    <!-- Events Screen -->
+    <string name="events_title">Lokalni događaji</string>
+    <string name="search_label">Pretraži po nazivu</string>
+    <string name="category_filter_label">Filtriraj po kategoriji</string>
+    <string name="logout">Odjava</string>
+    <string name="favorites_only">Prikaži samo favorite</string>
+    <string name="add_event">Dodaj događaj</string>
+    <string name="date">Datum</string>
+    <string name="category">Kategorija</string>
+    <string name="address">Adresa</string>
+    <string name="interested">Zanima me</string>
+
+    <string name="category_all">Sve</string>
+    <string name="category_concert">Koncert</string>
+    <string name="category_sport">Sport</string>
+    <string name="category_education">Edukacija</string>
+    <string name="category_culture">Kultura</string>
+    <string name="category_exhibition">Izložba</string>
+    <string name="category_other">Ostalo</string>
+
+    <string name="add_event_title">Dodaj događaj</string>
+    <string name="label_title">Naslov</string>
+    <string name="label_description">Opis</string>
+    <string name="label_date">Datum (yyyy-MM-dd)</string>
+    <string name="label_category">Kategorija</string>
+    <string name="label_address">Adresa</string>
+    <string name="label_latitude">Latituda</string>
+    <string name="label_longitude">Longituda</string>
+    <string name="button_save_event">Spremi događaj</string>
+</resources>
