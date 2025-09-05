@@ -27,10 +27,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         val authViewModel : AuthViewModel by viewModels()
+        val eventIdFromNotification = intent.getStringExtra("eventId")
         setContent {
             LokEventApplicationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyAppNavigation(modifier = Modifier.padding(innerPadding), authViewModel=authViewModel)
+                    MyAppNavigation(modifier = Modifier.padding(innerPadding), authViewModel=authViewModel, startEventId = eventIdFromNotification)
                 }
             }
         }

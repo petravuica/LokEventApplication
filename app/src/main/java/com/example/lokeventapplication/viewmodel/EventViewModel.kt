@@ -15,22 +15,22 @@ class EventsViewModel : ViewModel() {
     private val db = Firebase.firestore
 
     private val _events = MutableStateFlow<List<Event>>(emptyList())
-    val events: StateFlow<List<Event>> = _events
+    val events: StateFlow<List<Event>> = _events //cim se promjeni, odmah se updejta
 
     fun fetchEvents() {
-        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return //dohvati se usera
 
-        db.collection("users").document(userId).collection("interests")
-            .get()
+        db.collection("users").document(userId).collection("interests") //za svakog korisnika, kolekcija interests
+            .get() //dohvaćeni svi eventi iz interests
             .addOnSuccessListener { interestDocs ->
-                val interestedIds = interestDocs.map { it.id }.toSet()
+                val interestedIds = interestDocs.map { it.id }.toSet() //stavljam ih u set
 
                 db.collection("events")
                     .get()
-                    .addOnSuccessListener { eventDocs ->
+                    .addOnSuccessListener { eventDocs -> //svi eventi iz baze
                         val eventList = eventDocs.mapNotNull { doc ->
                             try {
-                                val event = doc.toObject(Event::class.java).copy(
+                                val event = doc.toObject(Event::class.java).copy( //firebase dokument u event model
                                     id = doc.id,
                                     isInterested = interestedIds.contains(doc.id)
                                 )
@@ -41,7 +41,7 @@ class EventsViewModel : ViewModel() {
                                 null
                             }
                         }
-                        _events.value = eventList
+                        _events.value = eventList //sprema se u logove
                         Log.d("EventsDebug", "Total events fetched: ${eventList.size}")
                     }
                     .addOnFailureListener {
@@ -64,8 +64,8 @@ class EventsViewModel : ViewModel() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val docRef = db.collection("users")
             .document(userId)
-            .collection("interests")
-            .document(event.id)
+            .collection("interests") //za svakog korisnika, kolekcija
+            .document(event.id) // stvara se dokument = event.idu
 
         if (event.isInterested) {
             docRef.delete()
@@ -76,7 +76,7 @@ class EventsViewModel : ViewModel() {
                 "date" to event.date,
                 "location" to event.location
             )
-            docRef.set(eventMap)
+            docRef.set(eventMap) //spremimo ga u kolekciju interests
         }
 
         fetchEvents()

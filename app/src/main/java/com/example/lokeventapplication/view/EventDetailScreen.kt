@@ -27,8 +27,10 @@ fun EventDetailScreen(
     navController: NavController,
     context: Context
 ) {
-    val events by eventsViewModel.events.collectAsState()
+    val events by eventsViewModel.events.collectAsState() //podaci se odmah updejtaju
     val event = events.find { it.id == eventId }
+
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     if (event == null) {
         Box(
@@ -82,29 +84,21 @@ fun EventDetailScreen(
                     .height(50.dp),
                 shape = MaterialTheme.shapes.medium
             ) {
-                Text(if (event.isInterested) "Makni iz favorita" else "Dodaj u favorite")
+                Text(if (event.isInterested) stringResource(R.string.delete_favourites) else stringResource(R.string.add_favourites))
             }
 
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
-                onClick = {
-                    eventsViewModel.deleteEvent(event.id,
-                        onSuccess = { navController.popBackStack() },
-                        onError = { message ->
-                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                        }
-                    )
-                },
+                onClick = { showDeleteDialog = true },
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
                 shape = MaterialTheme.shapes.medium
             ) {
-                Text("Obriši događaj", color = MaterialTheme.colorScheme.onError)
+                Text(stringResource(R.string.delete_event), color = MaterialTheme.colorScheme.onError)
             }
-
             Spacer(modifier = Modifier.height(24.dp))
 
 
@@ -131,6 +125,31 @@ fun EventDetailScreen(
 
 
             Spacer(modifier = Modifier.height(16.dp))
+
+            if (showDeleteDialog) {
+                AlertDialog(
+                    onDismissRequest = { showDeleteDialog = false },
+                    title = { Text(stringResource(R.string.delete_confirmation_title)) },
+                    text = { Text(stringResource(R.string.delete_confirmation_message)) },
+                    confirmButton = {
+                        TextButton(
+                            onClick = {
+                                eventsViewModel.deleteEvent(
+                                    event.id,
+                                    onSuccess = { navController.popBackStack() },
+                                    onError = { message ->
+                                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                                    }
+                                )
+                                showDeleteDialog = false
+                            }
+                        ) { Text(stringResource(R.string.yes)) }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { showDeleteDialog = false }) { Text(stringResource(R.string.no)) }
+                    }
+                )
+            }
         }
     }
 }

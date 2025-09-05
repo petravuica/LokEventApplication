@@ -46,5 +46,11 @@
         <string name="label_longitude">Longitude</string>
         <string name="button_save_event">Save Event</string>
 
-
+    <string name="add_favourites">Add to favourites</string>
+    <string name="delete_favourites">Delete from favourites</string>
+    <string name="delete_event">Delete Event</string>
+    <string name="delete_confirmation_title">Confirmation</string>
+    <string name="delete_confirmation_message">Are you sure you want to delete this event?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

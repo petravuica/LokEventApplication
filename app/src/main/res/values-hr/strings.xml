@@ -42,4 +42,12 @@
     <string name="label_latitude">Latituda</string>
     <string name="label_longitude">Longituda</string>
     <string name="button_save_event">Spremi događaj</string>
+
+    <string name="add_favourites">Dodaj u favorite</string>
+    <string name="delete_favourites">Makni iz favorita</string>
+    <string name="delete_event">Obriši događaj</string>
+    <string name="delete_confirmation_title">Potvrda</string>
+    <string name="delete_confirmation_message">Jeste li sigurni da želite obrisati ovaj događaj?</string>
+    <string name="yes">Da</string>
+    <string name="no">Ne</string>
 </resources>

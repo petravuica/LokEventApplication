@@ -63,7 +63,7 @@ class AddEventViewModel : ViewModel() {
                 db.collection("events")
                     .add(event)
                     .addOnSuccessListener {
-                        scheduleEventReminder(context, state.title, parsedDate.toString())
+                        scheduleEventReminder(context, state.title, parsedDate.toString()) //notifikacija
                         onSuccess()
                     }
                     .addOnFailureListener { onError("Greška pri spremanju: ${it.message}") }
@@ -78,7 +78,7 @@ class AddEventViewModel : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
         private fun scheduleEventReminder(context: Context, title: String, date: String) {
             val eventDate = LocalDate.parse(date)
-            val reminderDateTime = LocalDateTime.of(eventDate, LocalTime.of(15, 52)) // 08:00 ujutro
+            val reminderDateTime = LocalDateTime.of(eventDate, LocalTime.of(9, 15)) // 08:00 ujutro
 
             val delay = java.time.Duration.between(
                 LocalDateTime.now(),

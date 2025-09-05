@@ -225,7 +225,7 @@ fun EventsList(
                         Column {
                             Text("${stringResource(R.string.date)}: ${event.date}", style = MaterialTheme.typography.bodySmall)
                             Text("${stringResource(R.string.category)}: ${event.category}", style = MaterialTheme.typography.bodySmall)
-                            Text("${stringResource(R.string.address)}: ${event.address}\"", style = MaterialTheme.typography.bodySmall)
+                            Text("${stringResource(R.string.address)}: ${event.address}", style = MaterialTheme.typography.bodySmall)
                         }
                         IconButton(onClick = { onToggleInterest(event) }) {
                             Icon(

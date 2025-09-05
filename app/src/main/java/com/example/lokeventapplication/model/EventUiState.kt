@@ -9,3 +9,4 @@ data class EventUiState(
     val latitude: String = "",
     val longitude: String = ""
 )
+//UI koristi ovo stanje i ažurira ga kroz onValueChange() kad korisnik nešto upiše u formu.

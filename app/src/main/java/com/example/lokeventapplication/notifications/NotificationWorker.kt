@@ -45,8 +45,9 @@ class NotificationWorker(
             notificationManager.createNotificationChannel(channel)
         }
         val intent = Intent(applicationContext, MainActivity::class.java).apply {
-            action = Intent.ACTION_VIEW
-            data = "myapp://event_detail/$eventId".toUri()
+          //  action = Intent.ACTION_VIEW
+           // data = "myapp://event_detail/$eventId".toUri()
+            putExtra("eventId", eventId)
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 

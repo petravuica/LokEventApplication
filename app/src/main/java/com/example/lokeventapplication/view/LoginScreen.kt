@@ -26,7 +26,7 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    val authState = authViewModel.authState.collectAsState()
+    val authState = authViewModel.authState.collectAsState() //azurira kada se stanje promjeni
     val context = LocalContext.current
 
     LaunchedEffect(authState.value) {
